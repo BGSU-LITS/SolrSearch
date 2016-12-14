@@ -55,14 +55,32 @@ class SolrSearch_Helpers_Index
 
             // Set text field.
             if ($field->is_indexed) {
-                $doc->setMultiValue($field->indexKey(), $text->text);
+                $doc->setMultiValue($field->indexKey(), self::filterHTML($text));
             }
 
             // Set string field.
             if ($field->is_facet) {
-                $doc->setMultiValue($field->facetKey(), $text->text);
+                $doc->setMultiValue($field->facetKey(), self::filterHTML($text));
             }
         }
+    }
+
+    /**
+     * Strip HTML entities and elements out of text
+     *
+     * @param ElementText $text
+     * @return mixed|string
+     * @author Ben Florin <benjamin.florin@bc.edu>
+     */
+    public static function filterHTML($text)
+    {
+        $filtered_text = $text->text;
+        if ($text->html) {
+            $filtered_text = str_replace('&nbsp;', ' ', $filtered_text);
+            $filtered_text = html_entity_decode($filtered_text, ENT_QUOTES | ENT_HTML5);
+            $filtered_text = strip_tags($filtered_text);
+        }
+        return $filtered_text;
     }
 
 
