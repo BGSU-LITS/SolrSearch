@@ -3,6 +3,15 @@
         "table"       : "SimplePagesPage",
         "result_type" : "Simple Page",
         "flag"        : "is_published",
-        "fields"      : ["title", "text"]
+        "fields"      : [
+            "title",
+            {
+                "field"    : "text",
+                "label"    : "text",
+                "facet"    : false,
+                "is_title" : false,
+                "is_html"  : true
+            }
+        ]
     }
 }

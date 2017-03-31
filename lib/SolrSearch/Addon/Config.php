@@ -194,6 +194,7 @@ class SolrSearch_Addon_Config
             $field->label    = $json['label'];
             $field->is_facet = array_key_exists('facet', $json)    ? $json['facet']    : false;
             $field->is_title = array_key_exists('is_title', $json) ? $json['is_title'] : false;
+            $field->is_html  = array_key_exists('is_html', $json)  ? $json['is_html']  : false;
             $field->remote   = array_key_exists('remote', $json)   ? (object) $json['remote'] : null;
             $field->metadata = array_key_exists('metadata', $json) ? (array) $json['metadata'] : null;
         } else {
@@ -201,6 +202,7 @@ class SolrSearch_Addon_Config
             $field->label    = $json;
             $field->is_facet = false;
             $field->is_title = false;
+            $field->is_html  = false;
             $field->remote   = null;
             $field->metadata = null;
         }

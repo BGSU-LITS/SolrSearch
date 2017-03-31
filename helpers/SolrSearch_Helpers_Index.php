@@ -55,12 +55,18 @@ class SolrSearch_Helpers_Index
 
             // Set text field.
             if ($field->is_indexed) {
-                $doc->setMultiValue($field->indexKey(), self::filterHTML($text));
+                $doc->setMultiValue(
+                    $field->indexKey(),
+                    self::filterHTML($text->text, $text->html)
+                );
             }
 
             // Set string field.
             if ($field->is_facet) {
-                $doc->setMultiValue($field->facetKey(), self::filterHTML($text));
+                $doc->setMultiValue(
+                    $field->facetKey(),
+                    self::filterHTML($text->text, $text->html)
+                );
             }
         }
     }
@@ -69,18 +75,19 @@ class SolrSearch_Helpers_Index
      * Strip HTML entities and elements out of text
      *
      * @param ElementText $text
+     * @param boolean $filter
      * @return mixed|string
      * @author Ben Florin <benjamin.florin@bc.edu>
      */
-    public static function filterHTML($text)
+    public static function filterHTML($text, $filter = false)
     {
-        $filtered_text = $text->text;
-        if ($text->html) {
-            $filtered_text = str_replace('&nbsp;', ' ', $filtered_text);
-            $filtered_text = html_entity_decode($filtered_text, ENT_QUOTES | ENT_HTML5);
-            $filtered_text = strip_tags($filtered_text);
+        if ($filter) {
+            $text = str_replace('&nbsp;', ' ', $text);
+            $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5);
+            $text = strip_tags($text);
         }
-        return $filtered_text;
+
+        return $text;
     }
 
 

@@ -44,6 +44,13 @@ class SolrSearch_Addon_Field
     var $is_title;
 
     /**
+     * Does this field always contain HTML?
+     *
+     * @var bool
+     **/
+    var $is_html;
+
+    /**
      * This is an array containing the table and key to a remote location for
      * the data in this field.
      *
@@ -61,13 +68,14 @@ class SolrSearch_Addon_Field
 
 
     function __construct(
-        $name=null, $label=null, $is_facet=null, $is_title=null, $remote=null,
-        $metadata=null
+        $name=null, $label=null, $is_facet=null, $is_title=null, $is_html=null,
+        $remote=null, $metadata=null
     ) {
         $this->name     = $name;
         $this->label    = $label;
         $this->is_facet = $is_facet;
         $this->is_title = $is_title;
+        $this->is_html  = $is_html;
         $this->remote   = $remote;
         $this->metadata = $metadata;
     }

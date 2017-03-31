@@ -185,7 +185,11 @@ class SolrSearch_Addon_Indexer
     protected function getLocalValue($record, $field)
     {
         $value = array();
-        $value[] = $record[$field->name];
+        $value[] = SolrSearch_Helpers_Index::filterHTML(
+            $record[$field->name],
+            $field->is_html
+        );
+
         return $value;
     }
 
@@ -213,7 +217,10 @@ class SolrSearch_Addon_Indexer
 
         $rows   = $table->fetchObjects($select);
         foreach ($rows as $item) {
-            $value[] = $item[$field->name];
+            $value[] = SolrSearch_Helpers_Index::filterHTML(
+                $item[$field->name],
+                $field->is_html
+            );
         }
 
         return $value;
@@ -232,7 +239,19 @@ class SolrSearch_Addon_Indexer
      **/
     protected function getMetadataValue($record, $field)
     {
-        $value = metadata($record, $field->metadata, 'all');
+        $value = array();
+
+        $texts = $record->getElementTexts(
+            $field->metadata[0],
+            $field->metadata[1]
+        );
+
+        foreach ($texts as $text) {
+            $value[] = SolrSearch_Helpers_Index::filterHTML(
+                $text->text,
+                $field->is_html || $text->html
+            );
+        }
 
         return $value;
     }

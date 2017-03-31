@@ -8,7 +8,13 @@
 
         "fields": [
             "title",
-            "description"
+            {
+                "field"    : "description",
+                "label"    : "description",
+                "facet"    : false,
+                "is_title" : false,
+                "is_html"  : true
+            }
         ],
 
         "children": {
@@ -22,6 +28,7 @@
                         "label"    : "Page Text",
                         "facet"    : false,
                         "is_title" : false,
+                        "is_html"  : true,
                         "remote"   : {
                             "table" : "ExhibitPageBlock",
                             "key"   : "page_id"
